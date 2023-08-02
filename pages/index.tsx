@@ -1,67 +1,52 @@
-// pages/index.js
 import React from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Card from "../components/Card";
-
-const API_URL = "http://15.165.74.54:3000";
+import Link from "next/link";
+import { fetchData } from "../utils";
+import { query } from "../utils/query";
 
 const Home = () => {
-  const fetchItems = async (page = 1) => {
-    const response = await fetch(`${API_URL}/?page=${page}`);
-
-    const output = await response.json();
-
-    return output.data;
-  };
-
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
-    "items",
-    ({ pageParam = 1 }) => fetchItems(pageParam),
-    {
-      getNextPageParam: (lastPage) => {
-        if (lastPage.nextPage) {
-          return lastPage.nextPage;
-        }
-        return false;
-      },
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, isFetching, isError, isLoading } =
+    query("booksItems");
 
   const handleRefresh = () => {
     // Refetch the first page
     fetchNextPage(1);
   };
-  console.log(data, "data");
+
+  if (isError) {
+    return <p>Error fetching data. Please try again later.</p>;
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  console.log(data);
   return (
     <div>
       <h1>Card Type List</h1>
       <InfiniteScroll
-        dataLength={
-          data?.pages.reduce(
-            (total, page) => total + page?.results?.length,
-            0
-          ) || 0
-        }
-        next={() => fetchNextPage()}
-        hasMore={hasNextPage}
-        loader={<h4>Loading...</h4>}
+        dataLength={(data?.pages?.flat() || []).length}
+        next={fetchNextPage}
+        hasMore={hasNextPage as boolean}
+        loader={<h4>Loading more items...</h4>}
         endMessage={<h4>No more items to load.</h4>}
         scrollThreshold="80%"
+        className="grid grid-cols-3"
       >
-        {console.log(data)}
-        {data?.pages.map((page, pageIndex) =>
-          page?.results?.map((item) => (
+        {data?.pages?.flat()?.map((item, index) => (
+          <Link href={`/book/${index + 1}`}>
             <Card
-              key={`${pageIndex}-${item.id}`}
-              title={item.title}
-              discountRate={item.discountRate}
-              coverImage={item.coverImage}
-              price={item.price}
+              id={index}
+              title={item?.title}
+              discountRate={item?.discountRate}
+              coverImage={item?.coverImage}
+              price={item?.price}
             />
-          ))
-        )}
+          </Link>
+        ))}
       </InfiniteScroll>
 
       {isFetching && <p>Fetching more data...</p>}
