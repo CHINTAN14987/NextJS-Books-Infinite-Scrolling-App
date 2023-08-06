@@ -4,7 +4,7 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://15.165.74.54:3000/:path*",
+        destination: "https://frontassignment.hyperhire.in/:path*",
       },
     ];
   },

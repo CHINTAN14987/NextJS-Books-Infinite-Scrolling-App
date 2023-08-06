@@ -1,29 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import PriceSection from "./Description";
+import Description from "./Description";
 
 const Card = (props) => {
   const { title, discountRate, coverImage, price, id } = props;
   console.log(id, "key");
   return (
-    <div className="inline-block p-2">
+    <React.Fragment>
       <Image
         src={coverImage}
         alt={title}
-        width={200}
-        height={200}
-        objectFit="cover"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: "100%", height: "auto" }}
       />
-      <div className="">
-        <h2 className="">{title}</h2>
-        <div className="flex justify-between">
-          <span className="text-pink-600 font-bold">{discountRate}%</span>
-          <div className="flex text-black font-bold space-x-1 items-center">
-            <span>{price}</span> <span>루피</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Description
+        title={"이거는 책이에요"}
+        discountRate={discountRate}
+        price={price}
+      />
+    </React.Fragment>
   );
 };
 

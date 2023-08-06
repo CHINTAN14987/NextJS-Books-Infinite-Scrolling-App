@@ -3,15 +3,21 @@ import "../styles/globals.css";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient();
-
-function MyApp({ Component, pageProps }) {
+interface MyAppProps {
+  Component: React.ElementType;
+  pageProps: any;
+}
+function MyApp({ Component, pageProps }: MyAppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-    </QueryClientProvider>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 
