@@ -1,6 +1,6 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Card from "../components/Card";
+import Card from "../atoms/Card";
 import Link from "next/link";
 import { query } from "../utils/query";
 

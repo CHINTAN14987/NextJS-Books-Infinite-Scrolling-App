@@ -9,6 +9,6 @@ module.exports = {
     ];
   },
   images: {
-    domains: ["images-na.ssl-images-amazon.com"],
+    domains: ["images-na.ssl-images-amazon.com", "images.unsplash.com"],
   },
 };
