@@ -1,9 +1,10 @@
 // recoil.js
 import { atom } from "recoil";
-import mode from "../public/mode.png";
+import { Book } from "../pages/index";
 export const defaultImageAtom = atom({
   key: "defaultImage",
-  default: mode,
+  default:
+    "https://images.unsplash.com/photo-1541562232579-512a21360020?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
 });
 
 export const defaultBooksPageAtom = atom({
@@ -14,4 +15,9 @@ export const defaultBooksPageAtom = atom({
     "https://images.unsplash.com/photo-1554357395-dbdc356ca5da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
     "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1798&q=80",
   ],
+});
+
+export const defaultBooksList = atom({
+  key: "bookImages",
+  default: [] as [] | Book[],
 });

@@ -2,3 +2,8 @@
 .carousel .carousel-slider {
   height: 50rem !important;
 }
+.pull-to-refresh {
+  overflow-y: scroll;
+  height: 100vh;
+  touch-action: none;
+}

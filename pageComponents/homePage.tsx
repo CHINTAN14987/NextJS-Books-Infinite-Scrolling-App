@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Book } from "../styles/Types";
 import Scroller from "../components/Scroller";
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const { data, fetchNextPage, hasNextPage, isFetching, isError, isLoading } =
     query("booksItems");
   const [defaultImage, _] = useRecoilState(defaultImageAtom);
@@ -21,9 +21,9 @@ const Home: React.FC = () => {
     }
   }, [data, setBookList]);
 
-  const handleRefresh = () => {
-    fetchNextPage(1);
-  };
+  //   const handleRefresh = () => {
+  //     fetchNextPage(1);
+  //   };
   console.log(bookList, "bookList");
   if (isError) {
     return <p>Error fetching data. Please try again later.</p>;
@@ -51,4 +51,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

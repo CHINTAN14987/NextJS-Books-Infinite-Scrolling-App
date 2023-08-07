@@ -1,19 +1,13 @@
 import React from "react";
 import { query } from "../../utils/query";
 import { fetchData } from "../../utils/dataFetcher";
-import Carousel from "../../atoms/Carousel";
-import reviewIconOne from "../../public/reviewIconOne.png";
-import likeIcon from "../../public/likeIcon.png";
-import commentIcon from "../../public/commentIcon.png";
+import Carousel from "../../components/Carousel";
 import Image from "next/image";
-import Review from "../../atoms/Review";
-import detailSection from "../../atoms/Description";
-import Description from "../../atoms/Description";
+import Review from "../../components/Review";
+import Description from "../../components/Description";
 import { defaultImageAtom } from "../../recoil";
 import { useRecoilState } from "recoil";
 const Book = (props) => {
-  const [defaultImage, _] = useRecoilState(defaultImageAtom);
-  console.log(defaultImage, "djhjhjhj");
   const { data } = props;
   const commentSectionData = [
     {
@@ -35,8 +29,6 @@ const Book = (props) => {
       <h3 className="text-7xl font-extrabold text-center mb-4">
         이건 책이에요
       </h3>
-
-      <Image src={defaultImage} width={50} height={50} alt="" />
 
       <Carousel />
       <Description

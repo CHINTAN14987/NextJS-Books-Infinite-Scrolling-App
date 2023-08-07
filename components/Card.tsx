@@ -4,7 +4,7 @@ import Description from "./Description";
 
 const Card = (props) => {
   const { title, discountRate, coverImage, price, id } = props;
-  console.log(id, "key");
+
   return (
     <React.Fragment>
       <Image
