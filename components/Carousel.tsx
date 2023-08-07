@@ -12,17 +12,12 @@ const data: string[] = [
 
 const Carousel = () => {
   const [defaultBookImages, _] = useRecoilState(defaultBooksPageAtom);
-  console.log(defaultBookImages, "jhjhjhjhjjhjhj");
+
   return (
-    <NextCarousel
-      autoPlay
-      transitionTime={2000}
-      showThumbs={false}
-      className="carousel-slider"
-    >
+    <NextCarousel autoPlay transitionTime={2000} showThumbs={false}>
       {defaultBookImages?.map((image, index) => {
         return (
-          <div key={index} className="w-[100%] h-[100%]">
+          <div key={index} className="w-[100%] h-[40rem]">
             <img
               src={image}
               alt="book"

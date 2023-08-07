@@ -11,6 +11,7 @@ import { fetchData } from "../utils/dataFetcher";
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 const Scroller: React.FC = () => {
+  // Fetch data using the query hook
   const { data, fetchNextPage, hasNextPage, isFetching, isError, isLoading } =
     query("booksItems");
 
@@ -23,11 +24,6 @@ const Scroller: React.FC = () => {
     }
   }, [data, setBookList]);
 
-  const handleRefresh = async () => {
-    const refreshedData = await fetchData("1");
-    setBookList([...refreshedData]);
-  };
-
   if (isError) {
     return <p>Error fetching data. Please try again later.</p>;
   }
@@ -35,49 +31,67 @@ const Scroller: React.FC = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+  const handleRefresh = async () => {
+    const refreshedData = await fetchData("1");
+    setBookList([...refreshedData]);
+  };
+
+  const handleScroll = () => {
+    if (window.scrollY === 0) {
+      handleRefresh();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div>
-      <PullToRefresh onRefresh={handleRefresh}>
+      <div>
         <div>
-          <div>
-            <button
-              onClick={handleRefresh}
-              style={{ top: 0, position: "absolute" }}
-            >
-              Refresh
-            </button>
-          </div>
-          <InfiniteScroll
-            dataLength={(bookList || []).length}
-            next={fetchNextPage}
-            hasMore={hasNextPage as boolean}
-            loader={<h4>Loading more items...</h4>}
-            endMessage={<h4>No more items to load.</h4>}
-            scrollThreshold="80%"
+          <button
+            onClick={handleRefresh}
+            style={{ top: 0, position: "absolute" }}
           >
-            <div className="flex flex-wrap justify-around">
-              {bookList?.map((item, index) => (
-                <Link
-                  href={`/book/${index + 1}`}
-                  key={index}
-                  className="p-4 inline-block w-96"
-                >
-                  <Card
-                    id={index}
-                    title={item?.title}
-                    discountRate={item?.discountRate}
-                    coverImage={item?.coverImage}
-                    price={item?.price}
-                  />
-                </Link>
-              ))}
-            </div>
-          </InfiniteScroll>
-
-          {isFetching && <p>Fetching more data...</p>}
+            Refresh
+          </button>
         </div>
-      </PullToRefresh>
+
+        <InfiniteScroll
+          dataLength={(bookList || []).length}
+          next={fetchNextPage}
+          hasMore={hasNextPage as boolean}
+          loader={<h4>Loading more items...</h4>}
+          endMessage={<h4>No more items to load.</h4>}
+          scrollThreshold="80%"
+        >
+          <div className="flex flex-wrap justify-around">
+            {/* Map over bookList to display individual items */}
+            {bookList?.map((item, index) => (
+              <Link
+                href={`/book/${index + 1}`}
+                key={index}
+                className="p-4 inline-block w-96"
+              >
+                <Card
+                  id={index}
+                  title={item?.title}
+                  discountRate={item?.discountRate}
+                  coverImage={item?.coverImage}
+                  price={item?.price}
+                />
+              </Link>
+            ))}
+          </div>
+        </InfiniteScroll>
+
+        {isFetching && <p>Fetching more data...</p>}
+      </div>
     </div>
   );
 };
